@@ -1,11 +1,14 @@
 package by.overone.restaurant.entity;
 
+import by.overone.restaurant.entity.enums.MenuCategory;
+
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "restaurant.dishes")
+@Table(name = "dishes")
 public class Dish implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,18 +22,35 @@ public class Dish implements Serializable {
     private String description;
 
     @Column(name = "category")
-    private String category;
+    @Enumerated
+    private MenuCategory category;
 
     @Column(name = "price")
     private double price;
 
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(
+            name = "dishes_has_orders"
+            , joinColumns = @JoinColumn(name = "orders_id")
+            , inverseJoinColumns = @JoinColumn(name = "dishes_id_dishes"))
+    private List<Dish> dishes;
+
     public Dish() {}
 
-    public Dish(String name, String description, String category, double price) {
+    public Dish(String name, String description, MenuCategory category, double price) {
         this.name = name;
         this.description = description;
         this.category = category;
         this.price = price;
+    }
+
+    public Dish(int id, String name, String description, MenuCategory category, double price, List<Dish> dishes) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.category = category;
+        this.price = price;
+        this.dishes = dishes;
     }
 
     public int getId() {
@@ -57,11 +77,11 @@ public class Dish implements Serializable {
         this.description = description;
     }
 
-    public String getCategory() {
+    public MenuCategory getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(MenuCategory category) {
         this.category = category;
     }
 
@@ -78,11 +98,23 @@ public class Dish implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Dish dish = (Dish) o;
-        return id == dish.id && Double.compare(dish.price, price) == 0 && Objects.equals(name, dish.name) && Objects.equals(description, dish.description) && Objects.equals(category, dish.category);
+        return id == dish.id && Double.compare(dish.price, price) == 0 && Objects.equals(name, dish.name) && Objects.equals(description, dish.description) && category == dish.category && Objects.equals(dishes, dish.dishes);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, description, category, price);
+        return Objects.hash(id, name, description, category, price, dishes);
+    }
+
+    @Override
+    public String toString() {
+        return "Dish{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", category=" + category +
+                ", price=" + price +
+                ", dishes=" + dishes +
+                '}';
     }
 }
