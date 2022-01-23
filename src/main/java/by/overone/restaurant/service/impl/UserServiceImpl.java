@@ -1,8 +1,7 @@
 package by.overone.restaurant.service.impl;
 
-import by.overone.restaurant.entity.Dish;
 import by.overone.restaurant.entity.User;
-import by.overone.restaurant.repository.impl.UserRepository;
+import by.overone.restaurant.repository.impl.UserRepositoryImpl;
 import by.overone.restaurant.service.IUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,10 +9,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserService implements IUserService {
+public class UserServiceImpl implements IUserService {
 
     @Autowired
-    UserRepository userRepository;
+    UserRepositoryImpl userRepository;
 
     @Override
     public List<User> findAllUsers() {

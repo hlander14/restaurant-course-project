@@ -1,8 +1,7 @@
 package by.overone.restaurant.repository.impl;
 
-import by.overone.restaurant.entity.Detail;
 import by.overone.restaurant.entity.Dish;
-import by.overone.restaurant.repository.IDetailRepository;
+import by.overone.restaurant.repository.IDishesRepository;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -10,30 +9,30 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class DetailRepository implements IDetailRepository {
+public class DishesRepositoryImpl implements IDishesRepository {
 
     @Autowired
-    private SessionFactory sessionFactory;
+    SessionFactory sessionFactory;
 
     @Override
-    public List<Detail> findAllDetails() {
+    public List<Dish> findAllDishes() {
         return sessionFactory.getCurrentSession()
-                .createQuery("from Details", Detail.class)
+                .createQuery("from Dish", Dish.class)
                 .getResultList();
     }
 
     @Override
-    public Dish findDetailById(Long id) {
+    public Dish findDishById(Long id) {
         return null;
     }
 
     @Override
-    public void createDetail(Dish dish) {
+    public void createDish(Dish dish) {
 
     }
 
     @Override
-    public void deleteDetail(Long idForDeletion) {
+    public void deleteDish(Long idForDeletion) {
 
     }
 }

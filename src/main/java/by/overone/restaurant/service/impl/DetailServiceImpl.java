@@ -2,7 +2,7 @@ package by.overone.restaurant.service.impl;
 
 import by.overone.restaurant.entity.Detail;
 import by.overone.restaurant.entity.Dish;
-import by.overone.restaurant.repository.impl.DetailRepository;
+import by.overone.restaurant.repository.impl.DetailRepositoryImpl;
 import by.overone.restaurant.service.IDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,10 +10,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class DetailService implements IDetailService {
+public class DetailServiceImpl implements IDetailService {
 
     @Autowired
-    DetailRepository detailRepository;
+    DetailRepositoryImpl detailRepository;
 
     @Override
     public List<Detail> findAllDetails() {

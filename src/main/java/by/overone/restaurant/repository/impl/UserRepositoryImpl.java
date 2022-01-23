@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public class UserRepository implements IUserRepository {
+public class UserRepositoryImpl implements IUserRepository {
 
     @Autowired
     SessionFactory sessionFactory;
