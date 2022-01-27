@@ -4,7 +4,7 @@ import by.overone.restaurant.entity.enums.OrderStatus;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -17,10 +17,10 @@ public class Order implements Serializable {
     private int id;
 
     @Column(name = "order_create_time")
-    private Timestamp orderTime;
+    private LocalDateTime orderTime;
 
     @Column(name = "order_confirm_time")
-    private Timestamp paymentTime;
+    private LocalDateTime paymentTime;
 
     @Column(name = "amount")
     private double amount;
@@ -33,7 +33,7 @@ public class Order implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name = "dishes_has_orders"
             , joinColumns = @JoinColumn(name = "orders_id")
@@ -42,7 +42,7 @@ public class Order implements Serializable {
 
     public Order() {}
 
-    public Order(Timestamp orderTime, Timestamp paymentTime, double amount, OrderStatus status, User user, List<Dish> dishes) {
+    public Order(LocalDateTime orderTime, LocalDateTime paymentTime, double amount, OrderStatus status, User user, List<Dish> dishes) {
         this.orderTime = orderTime;
         this.paymentTime = paymentTime;
         this.amount = amount;
@@ -51,7 +51,7 @@ public class Order implements Serializable {
         this.dishes = dishes;
     }
 
-    public Order(int id, Timestamp orderTime, Timestamp paymentTime, double amount, OrderStatus status, User user, List<Dish> dishes) {
+    public Order(int id, LocalDateTime orderTime, LocalDateTime paymentTime, double amount, OrderStatus status, User user, List<Dish> dishes) {
         this.id = id;
         this.orderTime = orderTime;
         this.paymentTime = paymentTime;
@@ -69,19 +69,19 @@ public class Order implements Serializable {
         this.id = id;
     }
 
-    public Timestamp getOrderTime() {
+    public LocalDateTime getOrderTime() {
         return orderTime;
     }
 
-    public void setOrderTime(Timestamp orderTime) {
+    public void setOrderTime(LocalDateTime orderTime) {
         this.orderTime = orderTime;
     }
 
-    public Timestamp getPaymentTime() {
+    public LocalDateTime getPaymentTime() {
         return paymentTime;
     }
 
-    public void setPaymentTime(Timestamp paymentTime) {
+    public void setPaymentTime(LocalDateTime paymentTime) {
         this.paymentTime = paymentTime;
     }
 

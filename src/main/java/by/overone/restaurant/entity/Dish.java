@@ -28,11 +28,11 @@ public class Dish implements Serializable {
     @Column(name = "price")
     private double price;
 
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(
             name = "dishes_has_orders"
-            , joinColumns = @JoinColumn(name = "orders_id")
-            , inverseJoinColumns = @JoinColumn(name = "dishes_id_dishes"))
+            , joinColumns = @JoinColumn(name = "dishes_id_dishes")
+            , inverseJoinColumns = @JoinColumn(name = "orders_id"))
     private List<Dish> dishes;
 
     public Dish() {}
