@@ -17,21 +17,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        User.UserBuilder userBuilder = User.withDefaultPasswordEncoder();
+//        User.UserBuilder userBuilder = User.withDefaultPasswordEncoder();
 
         auth.inMemoryAuthentication()
-                .withUser(userBuilder.username("alex").password("alex").roles("ADMIN"))
-                .withUser(userBuilder.username("oleg").password("oleg").roles("HR"))
-                .withUser(userBuilder.username("elena").password("elena").roles("MANAGER", "HR"));
+                .withUser("alex").password("alex").roles("ADMIN")
+                .and()
+                .withUser("oleg").password("oleg").roles("HR")
+                .and()
+                .withUser("elena").password("elena").roles("MANAGER", "HR");
 //        auth.jdbcAuthentication().dataSource(dataSource);
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-//                .antMatchers("/api").permitAll()
-                .antMatchers("/api").hasRole("ADMIN")
+                .antMatchers("/**").permitAll()
+                .antMatchers("/api/users/**").hasRole("ADMIN")
 //                .antMatchers("/manager-info/**").hasRole("MANAGER")
-                .and().formLogin().permitAll();
+                .and().formLogin();
     }
 }
