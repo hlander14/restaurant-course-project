@@ -1,4 +1,4 @@
-package by.overone.restaurant.controller;
+package by.overone.restaurant.configuration;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -9,7 +9,7 @@ import org.springframework.security.core.userdetails.User;
 
 import javax.sql.DataSource;
 
-@EnableWebSecurity
+//@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 //    @Autowired

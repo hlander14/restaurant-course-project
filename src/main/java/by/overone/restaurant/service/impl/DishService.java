@@ -1,13 +1,14 @@
 package by.overone.restaurant.service.impl;
 
-import by.overone.restaurant.controller.DishController;
 import by.overone.restaurant.entity.Dish;
-import by.overone.restaurant.repository.impl.DishRepository;
+import by.overone.restaurant.exception_handling.NoSuchRestaurantException;
+import by.overone.restaurant.repository.DishRepository;
 import by.overone.restaurant.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DishService implements IService<Dish, Long> {
@@ -22,16 +23,20 @@ public class DishService implements IService<Dish, Long> {
 
     @Override
     public Dish findById(Long id) {
-        return dishRepository.findById(id);
+        Optional<Dish> optionalTrack = dishRepository.findById(id);
+        if (optionalTrack.isEmpty()) {
+            throw new NoSuchRestaurantException("There is no crypto with ID = " + id + " in database");
+        }
+        return optionalTrack.get();
     }
 
     @Override
     public void create(Dish entity) {
-        dishRepository.create(entity);
+        dishRepository.save(entity);
     }
 
     @Override
     public void delete(Long id) {
-        dishRepository.delete(id);
+        dishRepository.deleteById(id);
     }
 }

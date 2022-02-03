@@ -9,35 +9,35 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api")
+//@RequestMapping("/api")
 public class DishController {
 
     @Autowired
     private DishService dishService;
 
-    @GetMapping("/dishes")
+    @GetMapping("/api/dishes")
     public List<Dish> findAll() {
         return dishService.findAll();
     }
 
-    @GetMapping("/dishes/{id}")
+    @GetMapping("/api/dishes/{id}")
     public Dish findById(@PathVariable("id") Long id) {
         return dishService.findById(id);
     }
 
-    @PostMapping("/dishes")
+    @PostMapping("/api/dishes")
     public Dish create(@RequestBody Dish dish) {
         dishService.create(dish);
         return dish;
     }
 
-    @PutMapping("/dishes")
+    @PutMapping("/api/dishes")
     public Dish update(@RequestBody Dish dish) {
         dishService.create(dish);
         return dish;
     }
 
-    @DeleteMapping("/employees/{id}")
+    @DeleteMapping("/api/dishes/{id}")
     public String delete(@PathVariable Long id) {
         if (dishService.findById(id) == null) {
             throw new NoSuchRestaurantException("There is no employee with ID = " + id + " in database.");
