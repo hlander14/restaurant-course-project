@@ -1,6 +1,5 @@
 package by.overone.restaurant.controller;
 
-import by.overone.restaurant.entity.Order;
 import by.overone.restaurant.entity.User;
 import by.overone.restaurant.exception_handling.NoSuchRestaurantException;
 import by.overone.restaurant.service.impl.UserService;
