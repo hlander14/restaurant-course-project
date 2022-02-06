@@ -18,6 +18,9 @@ public class DishService implements IService<Dish, Long> {
 
     @Override
     public List<Dish> findAll() {
+        System.out.println("Туда");
+        List<Dish> list = dishRepository.findAll();
+        System.out.println("Обратно");
         return dishRepository.findAll();
     }
 

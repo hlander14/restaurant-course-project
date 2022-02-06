@@ -2,6 +2,7 @@ package by.overone.restaurant.entity;
 
 
 import by.overone.restaurant.entity.enums.Role;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -36,6 +37,7 @@ public class User {
     private Detail detail;
 
     @OneToMany(mappedBy = "user")
+    @JsonIgnore
     private List<Order> orders;
 
     public User(String username, String password, Role role, double balance, Detail detail, List<Order> orders) {

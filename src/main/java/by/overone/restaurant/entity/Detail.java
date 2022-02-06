@@ -1,5 +1,6 @@
 package by.overone.restaurant.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
@@ -27,7 +28,8 @@ public class Detail {
     @Column(name = "email")
     private String email;
 
-    @OneToOne(mappedBy = "detail")
+    @OneToOne(cascade = CascadeType.ALL, mappedBy = "detail")
+    @JsonIgnore
     private User user;
 
     public Detail(String name, String surname, String phoneNumber, String email, User user) {
@@ -36,5 +38,12 @@ public class Detail {
         this.phoneNumber = phoneNumber;
         this.email = email;
         this.user = user;
+    }
+
+    public Detail(String name, String surname, String phoneNumber, String email) {
+        this.name = name;
+        this.surname = surname;
+        this.phoneNumber = phoneNumber;
+        this.email = email;
     }
 }

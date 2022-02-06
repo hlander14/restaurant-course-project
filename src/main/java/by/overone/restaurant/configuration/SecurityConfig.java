@@ -20,11 +20,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        User.UserBuilder userBuilder = User.withDefaultPasswordEncoder();
 
         auth.inMemoryAuthentication()
-                .withUser("alex").password("alex").roles("ADMIN")
+                .withUser("alex")
+                    .password("alex")
+                    .authorities("ROLE_ADMIN")
                 .and()
-                .withUser("oleg").password("oleg").roles("HR")
-                .and()
-                .withUser("elena").password("elena").roles("MANAGER", "HR");
+                .withUser("oleg")
+                    .password("oleg")
+                    .authorities("ROLE_USER");
 //        auth.jdbcAuthentication().dataSource(dataSource);
     }
 
@@ -32,8 +34,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/**").permitAll()
-                .antMatchers("/api/users/**").hasRole("ADMIN")
-//                .antMatchers("/manager-info/**").hasRole("MANAGER")
+                .antMatchers("/api/users/**").hasRole("ROLE_ADMIN")
                 .and().formLogin();
+//        http.httpBasic().disable();
     }
 }

@@ -5,4 +5,5 @@ public enum OrderStatus {
     CONFIRMED,
     PAID,
     ISSUED
+    //new category add to end
 }
