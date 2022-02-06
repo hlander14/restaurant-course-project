@@ -1,6 +1,7 @@
 package by.overone.restaurant.entity;
 
 import by.overone.restaurant.entity.enums.MenuCategory;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -36,6 +37,7 @@ public class Dish implements Serializable {
             name = "dishes_has_orders"
             , joinColumns = @JoinColumn(name = "dishes_id_dishes")
             , inverseJoinColumns = @JoinColumn(name = "orders_id"))
+    @JsonBackReference
     private List<Dish> dishes;
 
     public Dish(String name, String description, MenuCategory category, double price) {

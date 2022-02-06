@@ -1,16 +1,17 @@
 package by.overone.restaurant.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "details")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Detail {
+public class Detail implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -29,7 +30,7 @@ public class Detail {
     private String email;
 
     @OneToOne(cascade = CascadeType.ALL, mappedBy = "detail")
-    @JsonIgnore
+    @JsonBackReference
     private User user;
 
     public Detail(String name, String surname, String phoneNumber, String email, User user) {

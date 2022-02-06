@@ -1,6 +1,7 @@
 package by.overone.restaurant.entity;
 
 import by.overone.restaurant.entity.enums.OrderStatus;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -41,6 +42,7 @@ public class Order implements Serializable {
             name = "dishes_has_orders"
             , joinColumns = @JoinColumn(name = "orders_id")
             , inverseJoinColumns = @JoinColumn(name = "dishes_id_dishes"))
+    @JsonManagedReference
     private List<Dish> dishes;
 
     public Order(LocalDateTime orderTime, LocalDateTime paymentTime, double amount, OrderStatus status, User user, List<Dish> dishes) {
