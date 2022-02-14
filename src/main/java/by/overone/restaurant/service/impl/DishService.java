@@ -28,7 +28,7 @@ public class DishService implements IService<Dish, Long> {
     public Dish findById(Long id) {
         Optional<Dish> optionalTrack = dishRepository.findById(id);
         if (optionalTrack.isEmpty()) {
-            throw new NoSuchRestaurantException("There is no crypto with ID = " + id + " in database");
+            throw new NoSuchRestaurantException("There is no dish with ID = " + id + " in database");
         }
         return optionalTrack.get();
     }

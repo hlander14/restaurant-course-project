@@ -1,10 +1,10 @@
 package by.overone.restaurant.controller;
 
 import by.overone.restaurant.entity.Dish;
-import by.overone.restaurant.entity.enums.MenuCategory;
 import by.overone.restaurant.exception_handling.NoSuchRestaurantException;
 import by.overone.restaurant.service.impl.DishService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,29 +16,34 @@ public class DishController {
     @Autowired
     private DishService dishService;
 
-    @GetMapping("")
+    @GetMapping
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERADMIN')")
     public List<Dish> findAll() {
         return dishService.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
+    @PreAuthorize("hasAnyAuthority('admin:read', 'admin:write')")
     public Dish findById(@PathVariable("id") Long id) {
         return dishService.findById(id);
     }
 
-    @PostMapping("")
+    @PostMapping
+    @PreAuthorize("hasAnyAuthority('admin:read', 'admin:write')")
     public Dish create(@RequestBody Dish dish) {
         dishService.create(dish);
         return dish;
     }
 
-    @PutMapping("")
+    @PutMapping
+    @PreAuthorize("hasAnyAuthority('admin:read', 'admin:write')")
     public Dish update(@RequestBody Dish dish) {
         dishService.create(dish);
         return dish;
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
+    @PreAuthorize("hasAnyAuthority('admin:read', 'admin:write')")
     public String delete(@PathVariable Long id) {
         if (dishService.findById(id) == null) {
             throw new NoSuchRestaurantException("There is no employee with ID = " + id + " in database.");

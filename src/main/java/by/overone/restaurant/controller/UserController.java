@@ -16,29 +16,29 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("")
+    @GetMapping
     public List<User> findAll() {
         return userService.findAll();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("{id}")
     public User findById(@PathVariable("id") Long id) {
         return userService.findById(id);
     }
 
-    @PostMapping("")
+    @PostMapping
     public User create(@RequestBody User user) {
         userService.create(user);
         return user;
     }
 
-    @PutMapping("")
+    @PutMapping
     public User update(@RequestBody User user) {
         userService.create(user);
         return user;
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("{id}")
     public String delete(@PathVariable Long id) {
         if (userService.findById(id) == null) {
             throw new NoSuchRestaurantException("There is no employee with ID = " + id + " in database.");

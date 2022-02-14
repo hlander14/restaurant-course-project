@@ -43,6 +43,7 @@ public class Order implements Serializable {
             , joinColumns = @JoinColumn(name = "orders_id")
             , inverseJoinColumns = @JoinColumn(name = "dishes_id_dishes"))
     @JsonManagedReference
+    @ToString.Exclude
     private List<Dish> dishes;
 
     public Order(LocalDateTime orderTime, LocalDateTime paymentTime, double amount, OrderStatus status, User user, List<Dish> dishes) {

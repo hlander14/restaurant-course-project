@@ -40,10 +40,11 @@ public class Dish implements Serializable {
     @JsonBackReference
     private List<Dish> dishes;
 
-    public Dish(String name, String description, MenuCategory category, double price) {
+    public Dish(String name, String description, MenuCategory category, double price, List<Dish> dishes) {
         this.name = name;
         this.description = description;
         this.category = category;
         this.price = price;
+        this.dishes = dishes;
     }
 }

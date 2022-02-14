@@ -34,6 +34,9 @@ public class User implements Serializable {
     @Column(name = "balance")
     private double balance;
 
+    @Column(name = "enabled")
+    private Integer enabled;
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "details_id")
     @JsonManagedReference
@@ -41,13 +44,15 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "user")
     @JsonIgnore
+    @ToString.Exclude
     private List<Order> orders;
 
-    public User(String username, String password, Role role, double balance, Detail detail, List<Order> orders) {
+    public User(String username, String password, Role role, double balance, Integer enabled, Detail detail, List<Order> orders) {
         this.username = username;
         this.password = password;
         this.role = role;
         this.balance = balance;
+        this.enabled = enabled;
         this.detail = detail;
         this.orders = orders;
     }

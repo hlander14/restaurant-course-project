@@ -25,7 +25,7 @@ public class DetailService implements IService<Detail, Long> {
     public Detail findById(Long id) {
         Optional<Detail> optionalTrack = detailRepository.findById(id);
         if (optionalTrack.isEmpty()) {
-            throw new NoSuchRestaurantException("There is no crypto with ID = " + id + " in database");
+            throw new NoSuchRestaurantException("There is no detail with ID = " + id + " in database");
         }
         return optionalTrack.get();
     }

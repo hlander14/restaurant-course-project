@@ -40,11 +40,4 @@ public class Detail implements Serializable {
         this.email = email;
         this.user = user;
     }
-
-    public Detail(String name, String surname, String phoneNumber, String email) {
-        this.name = name;
-        this.surname = surname;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-    }
 }

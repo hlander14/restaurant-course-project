@@ -25,7 +25,7 @@ public class OrderService implements IService<Order, Long> {
     public Order findById(Long id) {
         Optional<Order> optionalTrack = orderRepository.findById(id);
         if (optionalTrack.isEmpty()) {
-            throw new NoSuchRestaurantException("There is no crypto with ID = " + id + " in database");
+            throw new NoSuchRestaurantException("There is no order with ID = " + id + " in database");
         }
         return optionalTrack.get();
     }

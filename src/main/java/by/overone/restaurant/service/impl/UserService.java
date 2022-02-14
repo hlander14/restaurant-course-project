@@ -25,7 +25,7 @@ public class UserService implements IService<User, Long> {
     public User findById(Long id) {
         Optional<User> optionalTrack = userRepository.findById(id);
         if (optionalTrack.isEmpty()) {
-            throw new NoSuchRestaurantException("There is no crypto with ID = " + id + " in database");
+            throw new NoSuchRestaurantException("There is no order with ID = " + id + " in database");
         }
         return optionalTrack.get();
     }
