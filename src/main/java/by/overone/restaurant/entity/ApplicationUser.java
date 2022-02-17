@@ -1,4 +1,4 @@
-package by.overone.restaurant.auth;
+package by.overone.restaurant.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

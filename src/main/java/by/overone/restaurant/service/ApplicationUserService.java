@@ -1,5 +1,6 @@
-package by.overone.restaurant.auth;
+package by.overone.restaurant.service;
 
+import by.overone.restaurant.repository.IApplicationUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

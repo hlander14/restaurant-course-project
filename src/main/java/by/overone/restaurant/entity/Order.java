@@ -3,15 +3,20 @@ package by.overone.restaurant.entity;
 import by.overone.restaurant.entity.enums.OrderStatus;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
+import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "orders")
-@Data
+@Getter
+@Setter
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 public class Order implements Serializable {
@@ -35,6 +40,7 @@ public class Order implements Serializable {
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "users_id")
+    @JsonManagedReference
     private User user;
 
     @ManyToMany
@@ -43,15 +49,32 @@ public class Order implements Serializable {
             , joinColumns = @JoinColumn(name = "orders_id")
             , inverseJoinColumns = @JoinColumn(name = "dishes_id_dishes"))
     @JsonManagedReference
-    @ToString.Exclude
-    private List<Dish> dishes;
+    private List<Dish> dishes = new ArrayList<>();
 
-    public Order(LocalDateTime orderTime, LocalDateTime paymentTime, double amount, OrderStatus status, User user, List<Dish> dishes) {
+    public Order(LocalDateTime orderTime,
+                 LocalDateTime paymentTime,
+                 double amount,
+                 OrderStatus status,
+                 User user,
+                 List<Dish> dishes) {
         this.orderTime = orderTime;
         this.paymentTime = paymentTime;
         this.amount = amount;
         this.status = status;
         this.user = user;
         this.dishes = dishes;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Order order = (Order) o;
+        return Double.compare(order.amount, amount) == 0 && Objects.equals(id, order.id) && Objects.equals(orderTime, order.orderTime) && Objects.equals(paymentTime, order.paymentTime) && status == order.status && Objects.equals(user, order.user) && Objects.equals(dishes, order.dishes);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, orderTime, paymentTime, amount, status, user, dishes);
     }
 }

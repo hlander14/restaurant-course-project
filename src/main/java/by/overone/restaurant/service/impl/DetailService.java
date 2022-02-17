@@ -6,11 +6,13 @@ import by.overone.restaurant.repository.DetailRepository;
 import by.overone.restaurant.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@Transactional
 public class DetailService implements IService<Detail, Long> {
 
     @Autowired

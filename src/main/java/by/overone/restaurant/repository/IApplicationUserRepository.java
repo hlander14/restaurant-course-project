@@ -1,4 +1,6 @@
-package by.overone.restaurant.auth;
+package by.overone.restaurant.repository;
+
+import by.overone.restaurant.entity.ApplicationUser;
 
 import java.util.Optional;
 
