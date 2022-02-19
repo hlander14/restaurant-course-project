@@ -11,6 +11,7 @@
     <tr>
         <th><a href="index">Главная</a></th>
         <th><a href="menu">Меню</a></th>
+        <th><a href="orders">Заказы</a></th>
         <th><a href="basket">Корзина (<span th:text="${session.basket_quantity}"></span></a>)</th>
     </tr>
 </table>
@@ -44,21 +45,6 @@
         </td>
     </tr>
 
-<!--    <th:block th:each="dish : ${dishes}">-->
-<!--        <tr>-->
-<!--            <td th:text="${dish.name}"></td>-->
-<!--            <td th:text="${dish.description}"></td>-->
-<!--            <td th:text="${dish.category}"></td>-->
-<!--            <td th:text="${dish.price}"></td>-->
-<!--            <td >-->
-<!--                <button th:onclick="'addToBasket('+${dish.id}+')'"></button>-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--    </th:block>-->
 </table>
-
-
-
-
 </body>
 </html>

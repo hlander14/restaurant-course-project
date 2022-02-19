@@ -1,8 +1,8 @@
-package by.overone.restaurant.controller;
+package by.overone.restaurant.controller.rest;
 
-import by.overone.restaurant.entity.Detail;
+import by.overone.restaurant.entity.Order;
 import by.overone.restaurant.exception_handling.NoSuchRestaurantException;
-import by.overone.restaurant.service.impl.DetailService;
+import by.overone.restaurant.service.impl.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -10,44 +10,44 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/details")
-public class DetailController {
+@RequestMapping("/api/orders")
+public class OrderRestController {
     @Autowired
-    private DetailService detailService;
+    private OrderService orderService;
 
     @GetMapping
     @PreAuthorize("hasAnyAuthority('admin:read', 'admin:write')")
-    public List<Detail> findAll() {
-        return detailService.findAll();
+    public List<Order> findAll() {
+        return orderService.findAll();
     }
 
     @GetMapping("{id}")
     @PreAuthorize("hasAnyAuthority('admin:read', 'admin:write')")
-    public Detail findById(@PathVariable("id") Long id) {
-        return detailService.findById(id);
+    public Order findById(@PathVariable("id") Long id) {
+        return orderService.findById(id);
     }
 
     @PostMapping
     @PreAuthorize("hasAnyAuthority('admin:read', 'admin:write')")
-    public Detail create(@RequestBody Detail detail) {
-        detailService.create(detail);
-        return detail;
+    public Order create(@RequestBody Order order) {
+        orderService.create(order);
+        return order;
     }
 
     @PutMapping
     @PreAuthorize("hasAnyAuthority('admin:read', 'admin:write')")
-    public Detail update(@RequestBody Detail detail) {
-        detailService.create(detail);
-        return detail;
+    public Order update(@RequestBody Order order) {
+        orderService.create(order);
+        return order;
     }
 
     @DeleteMapping("{id}")
     @PreAuthorize("hasAnyAuthority('admin:read', 'admin:write')")
     public String delete(@PathVariable Long id) {
-        if (detailService.findById(id) == null) {
+        if (orderService.findById(id) == null) {
             throw new NoSuchRestaurantException("There is no employee with ID = " + id + " in database.");
         }
-        detailService.delete(id);
+        orderService.delete(id);
         return "Employee with ID = " + id + " was deleted";
     }
 }

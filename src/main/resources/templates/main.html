@@ -11,8 +11,8 @@
     <tr>
         <th><a href="index">Главная</a></th>
         <th><a href="menu">Меню</a></th>
-        <th><a href="login">Войти</a></th>
-        <th><a href="register">Зарегистрироваться</a></th>
+        <th><a href="orders">Заказы</a></th>
+        <th><a href="basket">Корзина (<span th:text="${session.basket_quantity}"></span></a>)</th>
     </tr>
 </table>
 
@@ -20,7 +20,7 @@
     <h1>Ресторан</h1>
     <p class="descript">Что не делается - все к лучшему</p>
 </div>
-<H1>Добро пожаловать в ресторан.</H1>
+<p align="right">Hello, <span th:text="${session.username} ?: 'Guest'"></span>.</p>
 
 </body>
 </html>

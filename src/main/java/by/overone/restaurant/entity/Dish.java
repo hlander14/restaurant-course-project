@@ -3,7 +3,6 @@ package by.overone.restaurant.entity;
 import by.overone.restaurant.entity.enums.MenuCategory;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
-import org.hibernate.Hibernate;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -31,7 +30,7 @@ public class Dish implements Serializable {
     private String description;
 
     @Column(name = "category")
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private MenuCategory category;
 
     @Column(name = "price")

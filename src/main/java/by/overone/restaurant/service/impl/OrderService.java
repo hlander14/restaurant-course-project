@@ -18,6 +18,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -58,8 +59,12 @@ public class OrderService implements IService<Order, Long> {
 
 
     public Long formAnOrder(String username, List<DishDTO> dishesDTOOfBasket) {
-        List<Dish> dishes = mappingUtils.mapToDishList(dishesDTOOfBasket);
-        User user = userRepository.findByUsername(username);
+        List<Dish> dishes = dishesDTOOfBasket
+                .stream().map(e -> mappingUtils.mapToDishEntity(e))
+                .collect(Collectors.toList());
+
+//        List<Dish> dishes = mappingUtils.mapToDishList(dishesDTOOfBasket);
+        User user = userRepository.findByUsername(username).get();
         Order order = new Order(
                 LocalDateTime.now(),
                 LocalDateTime.now(),
@@ -69,20 +74,38 @@ public class OrderService implements IService<Order, Long> {
                 dishes
         );
 
-        return 0L;
-//        Order returnedOrder = orderRepository.save(order);
-//
-//        if (returnedOrder != null) {
-//            return returnedOrder.getId();
-//        } else {
-//            System.out.println("Something wrong");
-//            return 0L;
-//        }
+        Order returnedOrder = orderRepository.save(order);
+
+        if (returnedOrder != null) {
+            return returnedOrder.getId();
+        } else {
+            System.out.println("Something wrong");
+            return 0L;
+        }
     }
 
     public Double totalPrice(List<Dish> dishes) {
         AtomicReference<Double> total = new AtomicReference<>(0.0);
         dishes.forEach(dish -> total.set(total.get() + dish.getPrice()));
         return total.get();
+    }
+
+    public void paidOrder(Long orderId, String username) {
+        Optional<User> userOptional = userRepository.findByUsername(username);
+        if (userOptional.isEmpty()) {
+            throw new NoSuchRestaurantException("There is no user with ID = " + orderId + " in database");
+        }
+        User user = userOptional.get();
+        Order order = orderRepository.getById(orderId);
+
+        if (user.getBalance() >= order.getAmount()) {
+            user.setBalance(user.getBalance() - order.getAmount());
+            order.setStatus(OrderStatus.PAID);
+            order.setPaymentTime(LocalDateTime.now());
+            userRepository.save(user);
+            orderRepository.save(order);
+        }else {
+            System.out.println("NET BABLA");
+        }
     }
 }

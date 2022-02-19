@@ -35,12 +35,13 @@ public class Order implements Serializable {
     private double amount;
 
     @Column(name = "status")
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "users_id")
     @JsonManagedReference
+    @ToString.Exclude
     private User user;
 
     @ManyToMany
@@ -49,6 +50,7 @@ public class Order implements Serializable {
             , joinColumns = @JoinColumn(name = "orders_id")
             , inverseJoinColumns = @JoinColumn(name = "dishes_id_dishes"))
     @JsonManagedReference
+    @ToString.Exclude
     private List<Dish> dishes = new ArrayList<>();
 
     public Order(LocalDateTime orderTime,

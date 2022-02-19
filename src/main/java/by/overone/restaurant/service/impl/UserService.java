@@ -1,5 +1,6 @@
 package by.overone.restaurant.service.impl;
 
+import by.overone.restaurant.entity.Order;
 import by.overone.restaurant.entity.User;
 import by.overone.restaurant.exception_handling.NoSuchRestaurantException;
 import by.overone.restaurant.repository.UserRepository;
@@ -40,5 +41,13 @@ public class UserService implements IService<User, Long> {
     @Override
     public void delete(Long id) {
         userRepository.deleteById(id);
+    }
+
+    public List<Order> findOrdersByUsername(String user) {
+        Optional<User> byUsername = userRepository.findByUsername(user);
+        if (byUsername.isEmpty()) {
+            throw new NoSuchRestaurantException("There is no user with name = " + user + " in database");
+        }
+        return byUsername.get().getOrders();
     }
 }

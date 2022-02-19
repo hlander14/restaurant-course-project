@@ -34,7 +34,7 @@ public class User implements Serializable {
     private String password;
 
     @Column(name = "role")
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private Role role;
 
     @Column(name = "balance")
@@ -46,10 +46,12 @@ public class User implements Serializable {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "details_id")
     @JsonManagedReference
+    @ToString.Exclude
     private Detail detail;
 
     @OneToMany(mappedBy = "user")
     @JsonBackReference
+    @ToString.Exclude
     private List<Order> orders = new ArrayList<>();
 
     public User(String username,

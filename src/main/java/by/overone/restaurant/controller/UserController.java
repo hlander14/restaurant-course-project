@@ -1,70 +1,43 @@
 package by.overone.restaurant.controller;
 
-import by.overone.restaurant.entity.Detail;
+import by.overone.restaurant.entity.Order;
 import by.overone.restaurant.entity.User;
-import by.overone.restaurant.entity.enums.Role;
-import by.overone.restaurant.exception_handling.NoSuchRestaurantException;
+import by.overone.restaurant.service.impl.OrderService;
 import by.overone.restaurant.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/users")
+@Controller
+@RequestMapping("/")
 public class UserController {
+
     @Autowired
     private UserService userService;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private OrderService orderService;
 
-    @GetMapping
-    @PreAuthorize("hasAnyAuthority('admin:read', 'admin:write')")
-    public List<User> findAll() {
-        return userService.findAll();
+    @GetMapping("orders")
+    public String getMenuPage(Model model, HttpSession session) {
+        List<User> users = userService.findAll();
+        String username = (String) session.getAttribute("username");
+
+
+        List<Order> orderList = userService.findOrdersByUsername(username);
+        model.addAttribute("orders", orderList);
+        return "orders";
     }
 
-    @GetMapping("{id}")
-    @PreAuthorize("hasAnyAuthority('admin:read', 'admin:write')")
-    public User findById(@PathVariable("id") Long id) {
-        return userService.findById(id);
+    @GetMapping("paidOrder")
+    public String paidOrder(@RequestParam(name = "orderId") Long orderId, HttpSession session) {
+        orderService.paidOrder(orderId, (String) session.getAttribute("username"));
+        return "orders";
     }
-
-    @PostMapping
-    @PreAuthorize("hasAnyAuthority('admin:read', 'admin:write')")
-    public User create(@RequestBody User user) {
-        userService.create(user);
-        return user;
-    }
-
-    @PutMapping
-    @PreAuthorize("hasAnyAuthority('admin:read', 'admin:write')")
-    public User update(@RequestBody User user) {
-        userService.create(user);
-        return user;
-    }
-
-    @DeleteMapping("{id}")
-    @PreAuthorize("hasAnyAuthority('admin:read', 'admin:write')")
-    public String delete(@PathVariable Long id) {
-        if (userService.findById(id) == null) {
-            throw new NoSuchRestaurantException("There is no employee with ID = " + id + " in database.");
-        }
-        userService.delete(id);
-        return "Employee with ID = " + id + " was deleted";
-    }
-
-//    @GetMapping("/add")
-//    @PreAuthorize("hasAnyAuthority('admin:read', 'admin:write')")
-//    public void addUser() {
-//        Detail detail = new Detail("Silvestr", "Stalone",
-//                "+375295784002", "sgssss@qwer.by");
-//        User user = new User("silvestr", passwordEncoder.encode("silvestr"),
-//                Role.CLIENT, 500.0, 1, detail);
-//
-//        userService.create(user);
-//    }
 }

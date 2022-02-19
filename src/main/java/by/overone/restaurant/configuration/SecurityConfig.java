@@ -28,12 +28,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/**", "/js/**").permitAll()
-                .anyRequest()
-                .authenticated()
+//                .anyRequest()
+//                .authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/login").permitAll()
-                .defaultSuccessUrl("/index", true);
+                .defaultSuccessUrl("/main", true);
     }
 
     @Bean
