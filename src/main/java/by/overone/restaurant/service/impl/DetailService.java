@@ -41,4 +41,8 @@ public class DetailService implements IService<Detail, Long> {
     public void delete(Long id) {
         detailRepository.deleteById(id);
     }
+
+    public Detail save(Detail entity) {
+       return detailRepository.save(entity);
+    }
 }
