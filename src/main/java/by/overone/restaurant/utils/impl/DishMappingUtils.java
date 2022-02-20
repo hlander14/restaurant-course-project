@@ -1,18 +1,20 @@
-package by.overone.restaurant.utils;
+package by.overone.restaurant.utils.impl;
 
 import by.overone.restaurant.entity.Dish;
 import by.overone.restaurant.entity.dto.DishDTO;
 import by.overone.restaurant.service.impl.DishService;
+import by.overone.restaurant.utils.IMappingUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MappingUtils {
+public class DishMappingUtils implements IMappingUtils<DishDTO, Dish> {
 
     @Autowired
     private DishService dishService;
 
-    public DishDTO mapToDishDto(Dish entity){
+    @Override
+    public DishDTO mapToDto(Dish entity){
         DishDTO dto = new DishDTO();
         dto.setId(entity.getId());
         dto.setName(entity.getName());
@@ -23,7 +25,8 @@ public class MappingUtils {
         return dto;
     }
 
-    public Dish mapToDishEntity(DishDTO dto){
+    @Override
+    public Dish mapToEntity(DishDTO dto){
         return dishService.findById(dto.getId());
     }
 }

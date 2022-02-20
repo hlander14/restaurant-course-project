@@ -9,7 +9,7 @@ import by.overone.restaurant.exception_handling.NoSuchRestaurantException;
 import by.overone.restaurant.repository.OrderRepository;
 import by.overone.restaurant.repository.UserRepository;
 import by.overone.restaurant.service.IService;
-import by.overone.restaurant.utils.MappingUtils;
+import by.overone.restaurant.utils.impl.DishMappingUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +31,7 @@ public class OrderService implements IService<Order, Long> {
     private UserRepository userRepository;
 
     @Autowired
-    private MappingUtils mappingUtils;
+    private DishMappingUtils dishMappingUtils;
 
     @Override
     public List<Order> findAll() {
@@ -60,10 +60,9 @@ public class OrderService implements IService<Order, Long> {
 
     public Long formAnOrder(String username, List<DishDTO> dishesDTOOfBasket) {
         List<Dish> dishes = dishesDTOOfBasket
-                .stream().map(e -> mappingUtils.mapToDishEntity(e))
+                .stream().map(e -> dishMappingUtils.mapToEntity(e))
                 .collect(Collectors.toList());
 
-//        List<Dish> dishes = mappingUtils.mapToDishList(dishesDTOOfBasket);
         User user = userRepository.findByUsername(username).get();
         Order order = new Order(
                 LocalDateTime.now(),

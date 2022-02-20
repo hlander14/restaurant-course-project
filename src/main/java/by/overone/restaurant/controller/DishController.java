@@ -4,7 +4,7 @@ import by.overone.restaurant.entity.Dish;
 import by.overone.restaurant.entity.dto.DishDTO;
 import by.overone.restaurant.service.impl.DishService;
 import by.overone.restaurant.service.impl.OrderService;
-import by.overone.restaurant.utils.MappingUtils;
+import by.overone.restaurant.utils.impl.DishMappingUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,7 +30,7 @@ public class DishController {
     private DishService dishService;
 
     @Autowired
-    private MappingUtils mappingUtils;
+    private DishMappingUtils dishMappingUtils;
 
     @GetMapping("menu")
     public String getMenuPage(Model model) {
@@ -42,7 +42,7 @@ public class DishController {
     @GetMapping("addToBasket")
     public String addDishToBasket(@RequestParam(name = "menuId") Long menuId, HttpSession session) {
         Dish dish = dishService.findById(menuId);
-        dishesOfBasket.add(mappingUtils.mapToDishDto(dish));
+        dishesOfBasket.add(dishMappingUtils.mapToDto(dish));
         session.setAttribute("basket_quantity", String.valueOf(dishesOfBasket.size()));
         return "redirect:/menu";
     }

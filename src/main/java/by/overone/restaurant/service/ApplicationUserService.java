@@ -24,6 +24,7 @@ public class ApplicationUserService implements UserDetailsService {
 
     private UserDetails buildUserDetails(User user){
         ApplicationUser applicationUser = new ApplicationUser();
+        applicationUser.setGrantedAuthorities(user.getRole().getGrantedAuthority());
         applicationUser.setUsername(user.getUsername());
         applicationUser.setPassword(user.getPassword());
         applicationUser.setAccountNonExpired(true);

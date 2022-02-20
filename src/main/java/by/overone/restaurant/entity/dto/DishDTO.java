@@ -14,14 +14,4 @@ public class DishDTO {
     private String description;
     private MenuCategory category;
     private double price;
-
-    public DishDTO(String name,
-                String description,
-                MenuCategory category,
-                double price) {
-        this.name = name;
-        this.description = description;
-        this.category = category;
-        this.price = price;
-    }
 }

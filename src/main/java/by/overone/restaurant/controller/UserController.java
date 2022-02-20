@@ -11,6 +11,7 @@ import by.overone.restaurant.service.impl.DetailService;
 import by.overone.restaurant.service.impl.OrderService;
 import by.overone.restaurant.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,9 @@ import java.util.List;
 @Controller
 @RequestMapping("/")
 public class UserController {
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private UserService userService;
@@ -64,7 +68,7 @@ public class UserController {
         System.out.println(newDetail);
 
         User user = new User(preUser.getUsername(),
-                preUser.getPassword(),
+                passwordEncoder.encode(preUser.getPassword()),
                 Role.USER,
                 0.0,
                 1,
