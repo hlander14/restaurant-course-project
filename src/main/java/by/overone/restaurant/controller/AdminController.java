@@ -2,6 +2,7 @@ package by.overone.restaurant.controller;
 
 import by.overone.restaurant.entity.Order;
 import by.overone.restaurant.entity.User;
+import by.overone.restaurant.entity.dto.UserDTO;
 import by.overone.restaurant.entity.enums.OrderStatus;
 import by.overone.restaurant.service.impl.OrderService;
 import by.overone.restaurant.service.impl.UserService;
@@ -10,9 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -55,6 +54,7 @@ public class AdminController {
     }
 
     @GetMapping("confirm_order")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERADMIN')")
     public String confirmOrder(@RequestParam(name = "orderId") Long orderId) {
         Order order = orderService.findById(orderId);
         order.setStatus(OrderStatus.CONFIRMED);
@@ -63,13 +63,23 @@ public class AdminController {
     }
 
     @GetMapping("replenishment_balance")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERADMIN')")
     public String replenishmentBalance(Model model) {
         List<User> userList = userService.findAll();
-        model.addAttribute("users", userList.stream()
+        List<UserDTO> userDTOList = userList.stream()
                 .map(user -> userMappingUtils.mapToDto(user))
-                .collect(Collectors.toList()));
+                .collect(Collectors.toList());
+        model.addAttribute("usersDTO", userDTOList);
         return "work_panel/replenishment_balance";
     }
 
-
+    @GetMapping("amount_deposit")
+    @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERADMIN')")
+    public String amountDeposit(@RequestParam("userId") Long userId,
+                                @RequestParam("amount") double amount) {
+        User user = userService.findById(userId);
+        user.setBalance(user.getBalance() + amount);
+        userService.create(user);
+        return "work_panel/replenishment_balance";
+    }
 }
