@@ -22,14 +22,51 @@
 </div>
 
 <form action="#" th:action="@{/registration}" th:object="${user}" method="post">
-    <p>Name: <input type="text" th:field="*{name}" /></p>
-    <p>Surname: <input type="text" th:field="*{surname}" /></p>
-    <p>Username: <input type="text" th:field="*{username}" /></p>
-    <p>Password: <input type="text" th:field="*{password}" /></p>
-    <p>Phone Number: <input type="text" th:field="*{phoneNumber}" /></p>
-    <p>E-mail: <input type="text" th:field="*{email}" /></p>
+    <table>
+        <tr>
+            <td>Имя:</td>
+            <td><input type="text" th:field="*{name}" /></td>
+            <td th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Name Error</td>
+        </tr>
+        <tr>
+            <td>Фамилия:</td>
+            <td><input type="text" th:field="*{surname}" /></td>
+            <td th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}">Name Error</td>
+        </tr>
+        <tr>
+            <td>Имя пользователя:</td>
+            <td><input type="text" th:field="*{username}" /></td>
+            <td th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Name Error</td>
+        </tr>
+        <tr>
+            <td>Пароль:</td>
+            <td><input type="text" th:field="*{password}" /></td>
+            <td th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Name Error</td>
+        </tr>
+        <tr>
+            <td>Номер телефона:</td>
+            <td><input type="text" th:field="*{phoneNumber}" /></td>
+            <td th:if="${#fields.hasErrors('phoneNumber')}" th:errors="*{phoneNumber}">Name Error</td>
+        </tr>
+        <tr>
+            <td>E-mail:</td>
+            <td><input type="text" th:field="*{email}" /></td>
+            <td th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Name Error</td>
+        </tr>
+        <tr>
+            <td><button type="submit">Создать</button></td>
+            <td><button type="reset">Сбросить</button></td>
+        </tr>
+    </table>
 
-    <p><input type="submit" value="Создать" /> <input type="reset" value="Сбросить" /></p>
+<!--    <p>Name: <input required type="text" th:field="*{name}" /></p>-->
+<!--    <p>Surname: <input required type="text" th:field="*{surname}" /></p>-->
+<!--    <p>Username: <input required type="text" th:field="*{username}" /></p>-->
+<!--    <p>Password: <input required type="password" th:field="*{password}"/></p>-->
+<!--    <p>Phone Number: <input required type="tel" th:field="*{phoneNumber}" /></p>-->
+<!--    <p>E-mail: <input required type="email" th:field="*{email}"/></p>-->
+
+<!--    <p><input type="submit" value="Создать" /> <input type="reset" value="Сбросить" /></p>-->
 </form>
 
 </body>

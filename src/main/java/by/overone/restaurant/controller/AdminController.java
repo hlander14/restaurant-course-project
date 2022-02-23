@@ -70,16 +70,18 @@ public class AdminController {
                 .map(user -> userMappingUtils.mapToDto(user))
                 .collect(Collectors.toList());
         model.addAttribute("usersDTO", userDTOList);
+        model.addAttribute("amount", 0.0);
         return "work_panel/replenishment_balance";
     }
 
     @GetMapping("amount_deposit")
     @PreAuthorize("hasAnyRole('ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERADMIN')")
     public String amountDeposit(@RequestParam("userId") Long userId,
-                                @RequestParam("amount") double amount) {
+                                @RequestParam("amount") String amount) {
+
         User user = userService.findById(userId);
-        user.setBalance(user.getBalance() + amount);
+        user.setBalance(user.getBalance() + Double.parseDouble(amount));
         userService.create(user);
-        return "work_panel/replenishment_balance";
+        return "work_panel/work_panel";
     }
 }

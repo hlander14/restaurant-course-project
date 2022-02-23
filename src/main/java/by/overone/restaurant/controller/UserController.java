@@ -5,8 +5,6 @@ import by.overone.restaurant.entity.Detail;
 import by.overone.restaurant.entity.Order;
 import by.overone.restaurant.entity.User;
 import by.overone.restaurant.entity.enums.Role;
-import by.overone.restaurant.exception_handling.NoSuchRestaurantException;
-import by.overone.restaurant.exception_handling.RestaurantIncorrectData;
 import by.overone.restaurant.service.impl.DetailService;
 import by.overone.restaurant.service.impl.OrderService;
 import by.overone.restaurant.service.impl.UserService;
@@ -14,9 +12,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -59,13 +59,17 @@ public class UserController {
     }
 
     @PostMapping("registration")
-    public String registrationUserSubmit(@ModelAttribute("user") ClassBeforeCreateUser preUser) {
+    public String registrationUserSubmit(@Valid @ModelAttribute("user") ClassBeforeCreateUser preUser,
+                                         BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            return "registration";
+        }
+
         Detail newDetail = new Detail(preUser.getName(),
-                            preUser.getSurname(),
-                            preUser.getPhoneNumber(),
-                            preUser.getEmail());
+                preUser.getSurname(),
+                preUser.getPhoneNumber(),
+                preUser.getEmail());
         newDetail = detailService.save(newDetail);
-        System.out.println(newDetail);
 
         User user = new User(preUser.getUsername(),
                 passwordEncoder.encode(preUser.getPassword()),
@@ -74,7 +78,6 @@ public class UserController {
                 1,
                 newDetail);
         userService.create(user);
-        System.out.println(user);
         return "user/confirm";
     }
 }
