@@ -17,20 +17,15 @@ public class ClassBeforeCreateUser {
     @Size(min = 2, max = 20)
     private String surname;
 
-    @Size(min = 4, max = 10)
     @Pattern(regexp = "^\\w{4,10}$")
     private String username;
 
-    @NotBlank(message = "Please enter your password, from 4 to 12 symbols")
-    @Size(min = 4, max = 12)
-    @Pattern(regexp = "^\\w{4,12}$")
+    @Pattern(regexp = "^\\w{4,12}$", message = "Пожалуйста введите пароль, от 4 до 12 символов")
     private String password;
 
-    @NotBlank(message = "Please enter your phone number, format -> +123456789123")
-    @Pattern(regexp = "^\\+\\d{12}$")
+    @Pattern(regexp = "^\\+\\d{12}$", message = "Пожалуйста введите свой номер телефона в формате -> +123456789123")
     private String phoneNumber;
 
-    @NotBlank(message = "Please enter your e-mail")
-    @Email
+    @Email(message = "Пожалуйста введите свой e-mail")
     private String email;
 }

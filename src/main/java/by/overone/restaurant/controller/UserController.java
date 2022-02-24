@@ -9,6 +9,7 @@ import by.overone.restaurant.service.impl.DetailService;
 import by.overone.restaurant.service.impl.OrderService;
 import by.overone.restaurant.service.impl.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,6 +37,7 @@ public class UserController {
     private DetailService detailService;
 
     @GetMapping("orders")
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERADMIN')")
     public String getMenuPage(Model model, HttpSession session) {
         List<User> users = userService.findAll();
         String username = (String) session.getAttribute("username");
@@ -47,6 +49,7 @@ public class UserController {
     }
 
     @GetMapping("paidOrder")
+    @PreAuthorize("hasAnyRole('ROLE_CLIENT', 'ROLE_USER', 'ROLE_ADMIN', 'ROLE_SUPERADMIN')")
     public String paidOrder(@RequestParam(name = "orderId") Long orderId, HttpSession session) {
         orderService.paidOrder(orderId, (String) session.getAttribute("username"));
         return "orders";
@@ -78,6 +81,6 @@ public class UserController {
                 1,
                 newDetail);
         userService.create(user);
-        return "user/confirm";
+        return "redirect:user/confirm";
     }
 }
